@@ -1,0 +1,39 @@
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
+public class TimeServer {
+
+public static void main(String[] args) throws IOException {
+ byte[] buffer = new byte[1024]; // creazione di un array di byte della dimensione specificata
+  int porta=11234;//porta del server
+  DatagramSocket socket=new DatagramSocket(porta);//Bind esplicito sulla porta
+  
+  DatagramPacket pacchetto = new DatagramPacket(buffer, buffer.length); // creazione di un datagram UDP
+  
+  while (true) {
+   try {
+       Calendar calendar = new GregorianCalendar();
+    socket.receive(pacchetto); // attesa ricezione datagram di richiesta
+    // determinazione timestamp
+   
+   String dati ="Data: "+ calendar.get(Calendar.DATE)+"-";
+   int giorno=calendar.get(Calendar.MONTH)+1;
+   dati=dati+giorno;
+   dati=dati+"-"+calendar.get(Calendar.YEAR)+" ora: "+calendar.get(Calendar.HOUR)+":"+calendar.get(Calendar.MINUTE);
+  
+       // costruzione datagram di risposta
+    buffer= dati.getBytes();
+    InetAddress ip=pacchetto.getAddress();//si estrae dal pacchetto l'indirizzo del client per inviare la risposta
+   porta=pacchetto.getPort();// si ottiene la porta del client
+    pacchetto = new DatagramPacket(buffer,buffer.length, ip, porta);
+    socket.send(pacchetto); // trasmissione datagram di risposta
+   }
+   catch (IOException exception) {
+   exception.getMessage();
+   }
+  } 
+     
+ }    
+}
+
