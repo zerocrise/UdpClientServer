@@ -12,7 +12,7 @@ public class UdpClient {
           System.out.println("invio messaggio ");
         DatagramPacket  pacchetto=new DatagramPacket(bufferOut,bufferOut.length,ip,port);//si crea il pacchetto da inviare
         socket.send(pacchetto);//si invia il pacchetto
-         pacchetto=new DatagramPacket(bufferOut,bufferOut.length);si prepara il pacchetto per la ricezione 
+         pacchetto=new DatagramPacket(bufferIn,bufferIn.length);si prepara il pacchetto per la ricezione 
        socket.receive(pacchetto);//il client si mette in attesa 
          messaggio=new String(pacchetto.getData(),pacchetto.getOffset(),pacchetto.getLength());//si estraggono i dati dal pacchetto ricevuto
              System.out.println(messaggio +" ricevuto ");
